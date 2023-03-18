@@ -10,6 +10,7 @@ class crear_restaurante(forms.Form):
     direccion_ciudad = forms.CharField()
     fecha_inicio_act = forms.DateField()
     tipo_restaurante = forms.CharField()
+    imagen_restaurante = forms.ImageField()
 
 class crear_experiencia(forms.Form):
 

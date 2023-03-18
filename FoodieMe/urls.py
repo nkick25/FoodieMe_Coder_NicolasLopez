@@ -30,6 +30,7 @@ urlpatterns = [
     path('login_error/',views.iniciar_sesion_error, name="login_error"),
     path('registro/',views.registro_usuario, name="registro"),
     path("logout", LogoutView.as_view(template_name="FoodieMe/logout.html"), name="logout"),
+    path("permisos_error", views.permisos, name="permisos_error"),
 
     ###  CRUD
     path('alta_restaurante/',views.alta_restaurante, name="alta_restaurante"),

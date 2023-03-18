@@ -8,12 +8,15 @@
 {% endblock %}
 
 {% block contenido %}               
-    <form action=""    method="POST"> {% csrf_token %}
+    <form action="" enctype="multipart/form_data"    method="POST"> {% csrf_token %}
         <table>
 
         {{form1.as_table}}
 
         </table>
+        
+        <!-- <img src="{{ restaurante.imagen_restaurante.url }}">
+        <br> -->
 
         <input type = "submit" value="Confirmar">
     </form>    

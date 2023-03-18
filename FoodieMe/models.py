@@ -14,6 +14,7 @@ class restaurantes(models.Model):
     direccion_ciudad = models.CharField(max_length=60)
     fecha_inicio_act = models.DateField(default="0000-00-00")
     tipo_restaurante = models.CharField(max_length=60)
+    imagen_restaurante = models.ImageField(upload_to='restaurantes', null=True, default='default.jpg')
 
 class experiencias(models.Model):
 

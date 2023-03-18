@@ -1,0 +1,16 @@
+{% extends "FoodieMe/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+<p> No por hoy! </p> 
+{% endblock %}
+
+{% block contenido %}
+
+<h5>Te pedimos que para ingresar a esta sección de nuestro sitio te registres y-o loguees. Gracias!</h5>
+
+
+<a class="btn btn-primary" href="{% url 'login' %}">Iniciar sesion</a>
+
+{% endblock %}

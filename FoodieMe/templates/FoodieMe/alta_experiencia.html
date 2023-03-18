@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block contenido %}               
-    <form action=""    method="POST"> {% csrf_token %}
+    <form action="" enctype="multipart/form_data"   method="POST"> {% csrf_token %}
         <table>
 
         {{form2.as_table}}

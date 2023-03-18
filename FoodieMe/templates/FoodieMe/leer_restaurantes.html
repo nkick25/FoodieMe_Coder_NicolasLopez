@@ -17,6 +17,10 @@
     <p>Ciudad: {{resto.direccion_ciudad}}</p>
     <p>Fecha de Inicio Actividades: {{resto.fecha_inicio_act}}</p>
     <p>Tipo Restaurante: {{resto.tipo_restaurante}}</p>
+    <p>Imagen Restaurante: {{resto.imagen_restaurante}}</p>
+
+    <img src="{{ resto.imagen_restaurante.url }}">
+    <br>
 
     <button>
         <a href="{% url 'editar_restaurantes' resto.nombre_restaurante %}"> Editar restaurante </a>

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
@@ -78,13 +78,21 @@ def construccion(request):
 
     return render(request, "FoodieMe/construccion.html")
 
+def permisos(request):
+
+    return render(request, "FoodieMe/permisos_error.html")
+
 def Admin(request):
 
     return render(request, "FoodieMe/admin.html")
 
+@login_required
+
 def home_restaurantes(request):
 
     return render(request, "FoodieMe/restaurantes.html")
+
+@login_required
 
 def home_experiencias(request):
 
@@ -93,17 +101,19 @@ def home_experiencias(request):
 
 ### Create
 
+@login_required
+
 def alta_restaurante(request):
 
     if request.method == 'POST':
 
-        formulario1 = crear_restaurante(request.POST)
+        formulario1 = crear_restaurante(request.POST, request.FILES)
 
         if formulario1.is_valid():
 
             info = formulario1.cleaned_data
 
-            resto = restaurantes(nombre_restaurante=info['nombre_restaurante'], direccion_calle=info['direccion_calle'], direccion_altura=info['direccion_altura'], direccion_ciudad=info['direccion_ciudad'], fecha_inicio_act=info['fecha_inicio_act'], tipo_restaurante=info['tipo_restaurante'])
+            resto = restaurantes(nombre_restaurante=info['nombre_restaurante'], direccion_calle=info['direccion_calle'], direccion_altura=info['direccion_altura'], direccion_ciudad=info['direccion_ciudad'], fecha_inicio_act=info['fecha_inicio_act'], tipo_restaurante=info['tipo_restaurante'],imagen_restaurante=info['imagen_restaurante'])
 
             resto.save()
 
@@ -114,6 +124,8 @@ def alta_restaurante(request):
         formulario1 = crear_restaurante()
 
     return render(request, "FoodieMe/alta_restaurante.html", {"form1":formulario1})
+
+@login_required
 
 def alta_experiencia(request):
 
@@ -159,6 +171,8 @@ def leer_experiencias(request):
 
 ### Delete
 
+@login_required
+
 def eliminar_restaurantes(request, restonombre):
 
     resto_borrar = restaurantes.objects.get(nombre_restaurante=restonombre)
@@ -172,13 +186,15 @@ def eliminar_restaurantes(request, restonombre):
 
 ### Update
 
+@login_required
+
 def actualizar_restaurantes(request, restonombre):
 
     resto_act = restaurantes.objects.get(nombre_restaurante=restonombre)
     
     if request.method == "POST":
 
-        formulario1 = crear_restaurante(request.POST)
+        formulario1 = crear_restaurante(request.POST, request.FILES)
 
         if formulario1.is_valid():
 
@@ -190,6 +206,7 @@ def actualizar_restaurantes(request, restonombre):
             resto_act.direccion_ciudad=info['direccion_ciudad']
             resto_act.fecha_inicio_act=info['fecha_inicio_act']
             resto_act.tipo_restaurante=info['tipo_restaurante']
+            resto_act.imagen_restaurante=info['imagen_restaurante']
 
             resto_act.save()
 
@@ -197,34 +214,34 @@ def actualizar_restaurantes(request, restonombre):
     
     else:
 
-            formulario1 = crear_restaurante(initial={"nombre_restaurante":resto_act.nombre_restaurante,"direccion_calle":resto_act.direccion_calle, "direccion_altura":resto_act.direccion_altura,"direccion_ciudad":resto_act.direccion_ciudad,"fecha_inicio_act":resto_act.fecha_inicio_act,"tipo_restaurante":resto_act.tipo_restaurante})
+            formulario1 = crear_restaurante(initial={"nombre_restaurante":resto_act.nombre_restaurante,"direccion_calle":resto_act.direccion_calle, "direccion_altura":resto_act.direccion_altura,"direccion_ciudad":resto_act.direccion_ciudad,"fecha_inicio_act":resto_act.fecha_inicio_act,"tipo_restaurante":resto_act.tipo_restaurante,"imagen_restaurante":resto_act.imagen_restaurante})
 
     return render(request, "FoodieMe/editar_restaurantes.html", {"form1":formulario1, "nombre_restaurante":restonombre})
 
 
 
-### CRUD por Clases
+# ### CRUD por Clases
 
-class lista_restaurantes(ListView):
+# class lista_restaurantes(ListView):
 
-    model = restaurantes
+#     model = restaurantes
 
-class detalle_restaurantes(DetailView):
+# class detalle_restaurantes(DetailView):
 
-    model = restaurantes
+#     model = restaurantes
 
-class crear_resto(CreateView):
+# class crear_resto(CreateView):
 
-    model = restaurantes
-    success_url = "FoodieMe/restaurantes/list"
-    fields = ["nombre_restaurante", "direccion_calle", "direccion_altura", "direccion_ciudad", "fecha_inicio_act", "tipo_restaurante"]
+#     model = restaurantes
+#     success_url = "FoodieMe/restaurantes/list"
+#     fields = ["nombre_restaurante", "direccion_calle", "direccion_altura", "direccion_ciudad", "fecha_inicio_act", "tipo_restaurante"]
 
-class actualizar_resto (UpdateView):
+# class actualizar_resto (UpdateView):
 
-    model = restaurantes
-    success_url = "FoodieMe/restaurantes/list"
-    fields = ["nombre_restaurante", "direccion_calle", "direccion_altura", "direccion_ciudad", "fecha_inicio_act", "tipo_restaurante"]
+#     model = restaurantes
+#     success_url = "FoodieMe/restaurantes/list"
+#     fields = ["nombre_restaurante", "direccion_calle", "direccion_altura", "direccion_ciudad", "fecha_inicio_act", "tipo_restaurante"]
 
-class borrar_resto(DeleteView):
+# class borrar_resto(DeleteView):
 
-    model = restaurantes
+#     model = restaurantes
